@@ -5,6 +5,8 @@ import { Detail } from "./Detail";
 import SearchParams from "./SearchParams";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "./ErrorBoundary";
+import { AdoptedPetContext } from "./AdoptedPetContext";
+import { useState } from "react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,19 +17,18 @@ const queryClient = new QueryClient({
   },
 });
 const App = () => {
-  console.log("rerendered");
+  const adoptedPetHook = useState(null);
   return (
     <BrowserRouter>
       <ErrorBoundary>
         <QueryClientProvider client={queryClient}>
-          {/* <Pet name="a" type="dog" />
-      <Pet name="b" type="cat" />
-      <Pet name="c" type="rabbit" /> */}
-          <Link to="/">home</Link>
-          <Routes>
-            <Route path="/detail/:id" element={<Detail />} />
-            <Route path="/" element={<SearchParams />} />
-          </Routes>
+          <AdoptedPetContext.Provider value={adoptedPetHook}>
+            <Link to="/">home</Link>
+            <Routes>
+              <Route path="/detail/:id" element={<Detail />} />
+              <Route path="/" element={<SearchParams />} />
+            </Routes>
+          </AdoptedPetContext.Provider>
         </QueryClientProvider>
       </ErrorBoundary>
     </BrowserRouter>

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AdoptedPetContext } from "./AdoptedPetContext";
 import { fetchSearch } from "./fetchSearch";
 import { Results } from "./Results";
 import { useBreedList } from "./useBreedList";
@@ -18,7 +19,7 @@ function SearchParams() {
 
   const { breedList: breeds, status } = useBreedList(type);
 
-  console.log("rerendered");
+  const [adoptedPet] = useContext(AdoptedPetContext);
 
   if (searchResult.isLoading) {
     return <h1>loading</h1>;
@@ -26,6 +27,17 @@ function SearchParams() {
 
   return (
     <div>
+      adopted:
+      {adoptedPet ? (
+        <img
+          src={adoptedPet.images[0]}
+          alt="adopted pet"
+          width="100px"
+          height="100px"
+        />
+      ) : (
+        "not yet"
+      )}
       <form
         onSubmit={(e) => {
           e.preventDefault();
