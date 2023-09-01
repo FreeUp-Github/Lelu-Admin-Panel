@@ -1,12 +1,12 @@
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import { Detail } from "./Detail";
+import { Link, Route, Routes } from "react-router-dom";
 // import Pet from "./Pet";
-import SearchParams from "./SearchParams";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { AdoptedPetContext } from "./AdoptedPetContext";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
+
+const Detail = lazy(() => import("./Detail"));
+const SearchParams = lazy(() => import("./SearchParams"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,22 +19,26 @@ const queryClient = new QueryClient({
 const App = () => {
   const adoptedPetHook = useState(null);
   return (
-    <BrowserRouter>
-      <ErrorBoundary>
-        <QueryClientProvider client={queryClient}>
-          <AdoptedPetContext.Provider value={adoptedPetHook}>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <AdoptedPetContext.Provider value={adoptedPetHook}>
+          <Suspense
+            fallback={
+              <div>
+                <h1>loading</h1>
+              </div>
+            }
+          >
             <Link to="/">home</Link>
             <Routes>
               <Route path="/detail/:id" element={<Detail />} />
               <Route path="/" element={<SearchParams />} />
             </Routes>
-          </AdoptedPetContext.Provider>
-        </QueryClientProvider>
-      </ErrorBoundary>
-    </BrowserRouter>
+          </Suspense>
+        </AdoptedPetContext.Provider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 };
 
-const container = document.getElementById("root");
-const root = ReactDOM.createRoot(container);
-root.render(<App />);
+export default App;

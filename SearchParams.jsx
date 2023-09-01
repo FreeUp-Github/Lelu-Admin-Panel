@@ -1,5 +1,15 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useState } from "react";
+import {
+  useContext,
+  useDeferredValue,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { AdoptedPetContext } from "./AdoptedPetContext";
 import { fetchSearch } from "./fetchSearch";
 import { Results } from "./Results";
@@ -16,17 +26,43 @@ function SearchParams() {
   });
   const searchResult = useQuery(["search", searchParams], fetchSearch);
   const pets = searchResult?.data?.pets ?? [];
+  const deferredValue = useDeferredValue(pets);
+  const results = useMemo(
+    () => <Results pets={deferredValue} />,
+    [deferredValue]
+  );
 
   const { breedList: breeds, status } = useBreedList(type);
 
   const [adoptedPet] = useContext(AdoptedPetContext);
+
+  // function logMe() {
+  //   console.log("this is me", type);
+  // }
+
+  // useMemo(logMe, [type]);
+
+  // const [width, setWidth] = useState(0);
+  // const wrapperRef = useRef();
+  // useEffect(() => {
+  //   console.log("use effect", wrapperRef.current?.clientWidth);
+  //   // setWidth(wrapperRef.current?.clientWidth);
+  // });
+  // useLayoutEffect(() => {
+  //   console.log("use layout effect", wrapperRef.current?.clientWidth);
+  //   setWidth(wrapperRef.current?.clientWidth);
+  // });
+  // useEffect(() => console.log({ width }), [width]);
 
   if (searchResult.isLoading) {
     return <h1>loading</h1>;
   }
 
   return (
-    <div>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    <div
+    // ref={wrapperRef}
+    >
       adopted:
       {adoptedPet ? (
         <img
@@ -82,7 +118,7 @@ function SearchParams() {
         <br />
         <button type="submit">submit</button>
       </form>
-      {<Results pets={pets} />}
+      {results}
     </div>
   );
 }

@@ -4,7 +4,6 @@ import { fetchBreeds } from "./fetchBreeds";
 export function useBreedList(animal) {
   const result = useQuery(["breeds", animal], fetchBreeds);
   return {
-    breedList: result?.data?.breeds ?? [],
-    status
+    breedList: result?.data?.breeds ?? []
   };
 }

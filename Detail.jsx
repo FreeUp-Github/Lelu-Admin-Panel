@@ -52,3 +52,5 @@ export function DetailErrorBoundary() {
 }
 
 export { DetailErrorBoundary as Detail };
+
+export default DetailErrorBoundary;
