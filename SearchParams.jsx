@@ -14,6 +14,7 @@ import { AdoptedPetContext } from "./AdoptedPetContext";
 import { fetchSearch } from "./fetchSearch";
 import { Results } from "./Results";
 import { useBreedList } from "./useBreedList";
+import Button from "@mui/material/Button";
 
 function SearchParams() {
   const TYPES = ["cat", "dog", "bird"];
@@ -63,6 +64,7 @@ function SearchParams() {
     <div
     // ref={wrapperRef}
     >
+      <Button>شسیب</Button>
       adopted:
       {adoptedPet ? (
         <img
