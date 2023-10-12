@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import { Link as Anchor } from "react-router-dom";
+import { Link as Anchor, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -40,12 +40,14 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     setLoading(true);
-    await singUp(data.get("email"), data.get("password"));
+    await singUp(data.get("email"), data.get("name"), data.get("password"));
     setLoading(false);
+    navigate("/panel/rooms");
   };
 
   return (
@@ -102,6 +104,18 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  name="name"
+                  autoFocus
                 />
               </Grid>
               <Grid item xs={12}>

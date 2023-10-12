@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
-import { Link as Anchor } from "react-router-dom";
+import { Link as Anchor, Navigate, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -21,6 +21,7 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -28,6 +29,7 @@ export default function SignIn() {
     const res = await singIn(data.get("email"), data.get("password"));
     setLoading(false);
     setToken(res.access, res.refresh, !!data.get("remember"));
+    navigate("/panel/rooms");
   };
 
   return (

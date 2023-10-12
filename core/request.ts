@@ -42,10 +42,21 @@ const post = function(...args: Parameters<typeof request.post>) {
   })
 };
 
+const authPost = function(...args: Parameters<typeof request.post>) {
+  return authRequest.post.apply(this, args).then((res) => {
+    return res.data;
+  }).catch((err) => {
+    snackBarError.value = {
+      message: err?.message,
+    }
+  })
+}
+
 export {
   post,
   snackBarError,
   authRequest,
   authGet,
+  authPost,
 }
 

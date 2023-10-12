@@ -1,8 +1,8 @@
 import {authGet, post} from '../core/request'
 
-export function singUp(email: string, password: string) {
+export function singUp(email: string, name: string, password: string) {
   return post('accounts/register', {
-    email, password
+    email, password, name
   })
 }
 

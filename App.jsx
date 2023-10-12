@@ -15,6 +15,7 @@ import SignIn from "./pages/SignIn";
 import GlobalErrorHandler from "./components/general/GlobalErrorHandler";
 import AdminPanelLayout from "./layouts/AdminPanelLayout.jsx";
 import Rooms from "./pages/AdminPanel/Rooms";
+import { Room } from "./pages/AdminPanel/Room";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,7 +43,14 @@ const App = () => {
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/panel" element={<AdminPanelLayout />}>
-                {/* <Route path="rooms" element={<Rooms />} /> */}
+                <Route path="rooms" element={<Rooms />} />
+                <Route path="rooms/:roomId" element={<Room />} />
+                {/* <Route
+                  path="*"
+                  handle={(...args) => {
+                    console.log({ args });
+                  }}
+                /> */}
               </Route>
               <Route path="*" element={<div>not found</div>}>
                 {/* <Route path="rooms" element={<Rooms />} /> */}

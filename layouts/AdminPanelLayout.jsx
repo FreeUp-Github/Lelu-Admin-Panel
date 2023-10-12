@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Outlet } from "react-router-dom";
 import { getUser } from "../apis/auth.ts";
+import { useEffect } from "react";
 
 const drawerWidth = 240;
 const navItems = ["Home", "About", "Contact"];
@@ -28,7 +29,12 @@ function DrawerAppBar(props) {
     setMobileOpen((prevState) => !prevState);
   };
 
-  getUser().then(console.log);
+  const [user, setState] = React.useState(null);
+  useEffect(() => {
+    getUser().then((res) => {
+      setState(res);
+    });
+  }, []);
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -70,7 +76,7 @@ function DrawerAppBar(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            {user?.email}
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item) => (
