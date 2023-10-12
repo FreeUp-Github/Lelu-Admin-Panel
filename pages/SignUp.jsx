@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,6 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { singUp } from "../apis/auth";
+import { useState } from "react";
+import { LoadingButton } from "@mui/lab";
 
 // function Copyright(props) {
 //   return (
@@ -36,13 +38,14 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    setLoading(true);
+    await singUp(data.get("email"), data.get("password"));
+    setLoading(false);
   };
 
   return (
@@ -121,14 +124,15 @@ export default function SignUp() {
                 />
               </Grid> */}
             </Grid>
-            <Button
+            <LoadingButton
               type="submit"
               fullWidth
               variant="contained"
+              loading={loading}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign Up
-            </Button>
+            </LoadingButton>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Anchor to="/sign-in">

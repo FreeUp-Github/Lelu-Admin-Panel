@@ -13,18 +13,21 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import { LoadingButton } from "@mui/lab";
+import { singIn } from "../apis/auth.ts";
+import { setToken } from "../core/auth.ts";
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const [loading, setLoading] = React.useState(false);
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    setLoading(true);
+    const res = await singIn(data.get("email"), data.get("password"));
+    setLoading(false);
+    setToken(res.access, res.refresh, !!data.get("remember"));
   };
 
   return (
@@ -72,17 +75,20 @@ export default function SignIn() {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={
+                <Checkbox value="remember" color="primary" name="remember" />
+              }
               label="Remember me"
             />
-            <Button
+            <LoadingButton
               type="submit"
               fullWidth
               variant="contained"
+              loading={loading}
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
-            </Button>
+            </LoadingButton>
             <Grid container>
               <Grid item xs></Grid>
               <Grid item>
