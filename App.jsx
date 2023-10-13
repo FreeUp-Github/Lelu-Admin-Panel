@@ -16,6 +16,10 @@ import GlobalErrorHandler from "./components/general/GlobalErrorHandler";
 import AdminPanelLayout from "./layouts/AdminPanelLayout.jsx";
 import Rooms from "./pages/AdminPanel/Rooms";
 import { Room } from "./pages/AdminPanel/Room";
+import { AuthProvider } from "./core/auth/AuthProvider";
+import { RequireAuth } from "./core/auth/RequireAuth";
+import { Index } from "./pages/Index";
+import { RedirectAuthenticated } from "./core/auth/RedirectAuthenticated";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,37 +32,61 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <Container>
-      <ErrorBoundary>
-        <QueryClientProvider client={queryClient}>
-          <Suspense
-            fallback={
-              <div>
-                <h1>loading</h1>
-              </div>
-            }
-          >
-            <GlobalErrorHandler />
-            {/* <Link to="/">home</Link> */}
-            <Routes>
-              <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/sign-in" element={<SignIn />} />
-              <Route path="/panel" element={<AdminPanelLayout />}>
-                <Route path="rooms" element={<Rooms />} />
-                <Route path="rooms/:roomId" element={<Room />} />
-                {/* <Route
+      <AuthProvider>
+        <ErrorBoundary>
+          <QueryClientProvider client={queryClient}>
+            <Suspense
+              fallback={
+                <div>
+                  <h1>loading</h1>
+                </div>
+              }
+            >
+              <GlobalErrorHandler />
+              {/* <Link to="/">home</Link> */}
+              <Routes>
+                <Route
+                  path="/sign-up"
+                  element={
+                    <RedirectAuthenticated>
+                      <SignUp />
+                    </RedirectAuthenticated>
+                  }
+                />
+                <Route
+                  path="/sign-in"
+                  element={
+                    <RedirectAuthenticated>
+                      <SignIn />
+                    </RedirectAuthenticated>
+                  }
+                />
+                <Route
+                  path="/panel"
+                  element={
+                    <RequireAuth>
+                      <AdminPanelLayout />
+                    </RequireAuth>
+                  }
+                >
+                  <Route path="rooms" element={<Rooms />} />
+                  <Route path="rooms/:roomId" element={<Room />} />
+                  {/* <Route
                   path="*"
                   handle={(...args) => {
                     console.log({ args });
                   }}
                 /> */}
-              </Route>
-              <Route path="*" element={<div>not found</div>}>
-                {/* <Route path="rooms" element={<Rooms />} /> */}
-              </Route>
-            </Routes>
-          </Suspense>
-        </QueryClientProvider>
-      </ErrorBoundary>
+                </Route>
+                <Route path="/" element={<Index />} />
+                <Route path="*" element={<div>not found</div>}>
+                  {/* <Route path="rooms" element={<Rooms />} /> */}
+                </Route>
+              </Routes>
+            </Suspense>
+          </QueryClientProvider>
+        </ErrorBoundary>
+      </AuthProvider>
     </Container>
   );
 };

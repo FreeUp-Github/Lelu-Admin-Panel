@@ -15,20 +15,22 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { LoadingButton } from "@mui/lab";
 import { singIn } from "../apis/auth.ts";
-import { setToken } from "../core/auth.ts";
+import { useAuth } from "../core/auth/AuthProvider";
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
+
+  const { set } = useAuth();
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     setLoading(true);
     const res = await singIn(data.get("email"), data.get("password"));
     setLoading(false);
-    setToken(res.access, res.refresh, !!data.get("remember"));
+    set(res.access, res.refresh, !!data.get("remember"));
     navigate("/panel/rooms");
   };
 

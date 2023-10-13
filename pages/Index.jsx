@@ -14,15 +14,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Outlet } from "react-router-dom";
-import { getUser } from "../apis/auth.ts";
-import { useEffect } from "react";
-import { useAuth } from "../core/auth/AuthProvider";
+import { Link, Navigate } from "react-router-dom";
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact"];
+const navItems = ["Home", "About", "Sign In"];
 
-function DrawerAppBar(props) {
+function Index(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -30,19 +27,10 @@ function DrawerAppBar(props) {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const [user, setState] = React.useState(null);
-  useEffect(() => {
-    getUser().then((res) => {
-      setState(res);
-    });
-  }, []);
-
-  const { clearToken } = useAuth();
-
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        {user?.email}
+        LeLu
       </Typography>
       <Divider />
       <List>
@@ -79,12 +67,12 @@ function DrawerAppBar(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            {user?.email}
+            LeLu
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            <Button sx={{ color: "#fff" }} onClick={() => clearToken()}>
-              Logout
-            </Button>
+            <Link to="/sign-in">
+              <Button sx={{ color: "#fff" }}>Sign In</Button>
+            </Link>
           </Box>
         </Toolbar>
       </AppBar>
@@ -110,13 +98,13 @@ function DrawerAppBar(props) {
       </nav>
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-        <Outlet />
+        <Typography>LeLu!</Typography>
       </Box>
     </Box>
   );
 }
 
-DrawerAppBar.propTypes = {
+Index.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -124,4 +112,4 @@ DrawerAppBar.propTypes = {
   window: PropTypes.func,
 };
 
-export default DrawerAppBar;
+export { Index };
