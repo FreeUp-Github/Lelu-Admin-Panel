@@ -52,11 +52,23 @@ const authPost = function(...args: Parameters<typeof request.post>) {
   })
 }
 
+
+const authPatch = function(...args: Parameters<typeof request.patch>) {
+  return authRequest.patch.apply(this, args).then((res) => {
+    return res.data;
+  }).catch((err) => {
+    snackBarError.value = {
+      message: err?.message,
+    }
+  })
+}
+
 export {
   post,
   snackBarError,
   authRequest,
   authGet,
   authPost,
+  authPatch,
 }
 
