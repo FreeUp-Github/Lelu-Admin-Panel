@@ -108,7 +108,7 @@ function DrawerAppBar(props) {
           {drawer}
         </Drawer>
       </nav>
-      <Box component="main" sx={{ p: 3 }}>
+      <Box component="main" sx={{ p: 3 }} flex={1}>
         <Toolbar />
         <Outlet />
       </Box>

@@ -50,7 +50,7 @@ export function RoomDetail() {
       <Typography component="h1" variant="h5" fontWeight={700}>
         Messages:
       </Typography>
-      <div className="flex-1 p:2 sm:p-6 justify-between flex flex-col max-h-96 overflow-auto">
+      <div className="flex-1 p:2 sm:p-6 justify-between flex flex-col">
         <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
           <div className="relative flex items-center space-x-4">
             <div className="relative">
@@ -78,30 +78,36 @@ export function RoomDetail() {
         <div className="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
           <div className="relative flex"></div>
         </div>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            const form = new FormData(event.currentTarget);
-            event.currentTarget.reset();
+        <div className="sticky bottom-0 p-3 bg-white">
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              const form = new FormData(event.currentTarget);
+              event.currentTarget.reset();
 
-            chatContext?.sendText(form.get("message") as string);
-          }}
-        >
-          <OutlinedInput
-            required
-            name="message"
-            fullWidth
-            placeholder="write your message"
-            autoComplete="email"
-            autoFocus
-            aria-autocomplete="none"
-            endAdornment={
-              <Button type="submit">
-                <Send />
-              </Button>
-            }
-          />
-        </form>
+              chatContext?.sendText(form.get("message") as string);
+              window.scrollTo({
+                behavior: "smooth",
+                top: document.documentElement.offsetHeight,
+              });
+            }}
+          >
+            <OutlinedInput
+              required
+              name="message"
+              fullWidth
+              placeholder="write your message"
+              autoComplete="email"
+              autoFocus
+              aria-autocomplete="none"
+              endAdornment={
+                <Button type="submit">
+                  <Send />
+                </Button>
+              }
+            />
+          </form>
+        </div>
       </div>
     </div>
   );
