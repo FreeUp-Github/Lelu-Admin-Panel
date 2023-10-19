@@ -5,7 +5,6 @@ import { useAuth } from "./AuthProvider";
 function RedirectAuthenticated({ children }: { children: JSX.Element }) {
   let auth = useAuth();
   let location = useLocation();
-
   if (auth.hasToken && location.state) {
     return <Navigate to="/panel/rooms" state={{ from: location }} replace />;
   }

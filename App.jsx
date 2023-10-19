@@ -20,6 +20,7 @@ import { AuthProvider } from "./core/auth/AuthProvider";
 import { RequireAuth } from "./core/auth/RequireAuth";
 import { Index } from "./pages/Index";
 import { RedirectAuthenticated } from "./core/auth/RedirectAuthenticated";
+import { RoomDetail } from "./pages/AdminPanel/RoomDetail";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -71,6 +72,10 @@ const App = () => {
                 >
                   <Route path="rooms" element={<Rooms />} />
                   <Route path="rooms/:roomId" element={<Room />} />
+                  <Route
+                    path="rooms/:roomId/detail/:chatId"
+                    element={<RoomDetail />}
+                  />
                   {/* <Route
                   path="*"
                   handle={(...args) => {

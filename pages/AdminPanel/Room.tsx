@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getRoom, getRoomChats } from "../../apis/room";
 import { CreateMember } from "../../components/AdminPanel/Rooms/CreateMember";
 import { DeleteOutline } from "@mui/icons-material";
@@ -114,11 +114,13 @@ export function Room() {
           queryChats.data.map((chat) => {
             return (
               <div key={chat.chat_uuid}>
-                <Typography component="p" variant="body1">
-                  {chat.chat_owner.name}
-                  {"  "}
-                  {new Date(Date.parse(chat.start_time)).toLocaleString()}
-                </Typography>
+                <Link to={`detail/${chat.chat_uuid}`}>
+                  <Typography component="p" variant="body1">
+                    {chat.chat_owner.name}
+                    {"  "}
+                    {new Date(Date.parse(chat.start_time)).toLocaleString()}
+                  </Typography>
+                </Link>
               </div>
             );
           })

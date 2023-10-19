@@ -10,11 +10,7 @@ interface AuthContextType {
 let AuthContext = React.createContext<AuthContextType>(null!);
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  let [hasToken, setHasToken] = React.useState(false);
-
-  useEffect(() => {
-    setHasToken(!!getToken());
-  }, []);
+  let [hasToken, setHasToken] = React.useState(!!getToken());
 
   let value = {
     hasToken,
