@@ -21,6 +21,7 @@ import { RequireAuth } from "./core/auth/RequireAuth";
 import { Index } from "./pages/Index";
 import { RedirectAuthenticated } from "./core/auth/RedirectAuthenticated";
 import { RoomDetail } from "./pages/AdminPanel/RoomDetail";
+import { ResetPassword } from "./pages/ResetPassword";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -59,6 +60,14 @@ const App = () => {
                   element={
                     <RedirectAuthenticated>
                       <SignIn />
+                    </RedirectAuthenticated>
+                  }
+                />
+                <Route
+                  path="/reset"
+                  element={
+                    <RedirectAuthenticated>
+                      <ResetPassword />
                     </RedirectAuthenticated>
                   }
                 />

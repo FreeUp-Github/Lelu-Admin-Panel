@@ -3,14 +3,14 @@ import { signal } from "@preact/signals-react";
 import { getToken } from "./auth";
 
 const request = axios.create({
-  baseURL: "http://94.101.190.125:8000/",
-  timeout: 5000,
+  baseURL: "https://94.101.190.125:8443/",
+  timeout: 60 * 1000,
   // headers: {'X-Custom-Header': 'foobar'}
 });
 
 const authRequest = axios.create({
-  baseURL: "http://94.101.190.125:8000/",
-  timeout: 5000,
+  baseURL: "https://94.101.190.125:8443/",
+  timeout: 60 * 1000,
   // headers: {'X-Custom-Header': 'foobar', },
 });
 

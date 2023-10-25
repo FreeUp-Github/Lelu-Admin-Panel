@@ -103,6 +103,16 @@ export default function SignIn() {
                 </Anchor>
               </Grid>
             </Grid>
+            <Grid container>
+              <Grid item xs></Grid>
+              <Grid item>
+                <Anchor to="/reset">
+                  <Link component="button" variant="body2">
+                    {"Forget Password? Click here"}
+                  </Link>
+                </Anchor>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>

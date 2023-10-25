@@ -104,6 +104,7 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  autoFocus
                 />
               </Grid>
 
@@ -115,7 +116,6 @@ export default function SignUp() {
                   id="name"
                   label="Name"
                   name="name"
-                  autoFocus
                 />
               </Grid>
               <Grid item xs={12}>
