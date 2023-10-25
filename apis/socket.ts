@@ -4,7 +4,7 @@ function initWebSocket(
   roomId: string
 ): Promise<InstanceType<typeof WebSocket>> {
   const socket = new WebSocket(
-    `ws://94.101.190.125:8000/ws/rooms/${roomId}/chats/`
+    `wss://94.101.190.125:8443/ws/rooms/${roomId}/chats/`
   );
   return new Promise((resolve, reject) => {
     socket.addEventListener("open", (event) => {
