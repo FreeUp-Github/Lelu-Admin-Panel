@@ -3,7 +3,9 @@ import { getToken } from "../core/auth";
 function initWebSocket(
   roomId: string
 ): Promise<InstanceType<typeof WebSocket>> {
-  const socket = new WebSocket(`ws://127.0.0.1:8000/ws/rooms/${roomId}/chats/`);
+  const socket = new WebSocket(
+    `ws://94.101.190.125:8000/ws/rooms/${roomId}/chats/`
+  );
   return new Promise((resolve, reject) => {
     socket.addEventListener("open", (event) => {
       resolve(socket);

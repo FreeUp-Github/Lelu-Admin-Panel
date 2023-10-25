@@ -38,8 +38,16 @@ export function RoomDetail() {
     chatStart(roomId!, chatId!, onMessage)
   );
 
+  useEffect(() => {
+    return onUnmount;
+  }, []);
+
   if (isLoading) {
     return <LinearProgress />;
+  }
+
+  function onUnmount() {
+    chatContext?.stop();
   }
 
   return (
