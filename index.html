@@ -6,6 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LeLu</title>
     <style>
+      .loader-wrapper {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .loader {
+        width: 48px;
+        height: 48px;
+        border: 5px solid #fff;
+        border-bottom-color: #ff3d00;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
       .modal {
         position: fixed;
         width: 300px;
@@ -19,7 +45,11 @@
     <link href="/output.css" rel="stylesheet" />
   </head>
   <body>
-    <div id="root">not rendered</div>
+    <div id="root">
+      <div class="loader-wrapper">
+        <span class="loader"></span>
+      </div>
+    </div>
     <div id="modals"></div>
     <script type="module" src="./App.jsx"></script>
   </body>
