@@ -30,8 +30,24 @@ export function RoomDetail() {
     setNewMessage(data);
   }
 
+  function scrollToBottom(shouldScroll = false) {
+    const { documentElement: html } = document;
+    const maximumScroll = html.offsetHeight - html.clientHeight;
+    const currentScroll = html.scrollTop;
+    const offset = maximumScroll - currentScroll;
+    if (offset < 50 || shouldScroll) {
+      window.scrollTo({
+        behavior: "smooth",
+        top: document.documentElement.offsetHeight,
+      });
+    }
+  }
+
   useEffect(() => {
-    if (newMessage) setMessages([...messages, newMessage]);
+    if (newMessage) {
+      setMessages([...messages, newMessage]);
+      scrollToBottom((newMessage as any).sender.type === "leluchat_user");
+    }
   }, [newMessage]);
 
   const { data: chatContext } = useQuery(["chatStart", roomId, chatId], () =>
@@ -94,10 +110,6 @@ export function RoomDetail() {
               event.currentTarget.reset();
 
               chatContext?.sendText(form.get("message") as string);
-              window.scrollTo({
-                behavior: "smooth",
-                top: document.documentElement.offsetHeight,
-              });
             }}
           >
             <OutlinedInput
