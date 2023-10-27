@@ -17,7 +17,24 @@ import Button from "@mui/material/Button";
 import { Link, Navigate } from "react-router-dom";
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Sign In"];
+const navItems = [
+  {
+    label: "Home",
+    to: "/",
+  },
+  {
+    label: "About",
+    to: "/about",
+  },
+  {
+    label: "Sign In",
+    to: "/sign-in",
+  },
+  {
+    label: "Sign Up",
+    to: "/sign-up",
+  },
+];
 
 function Index(props) {
   const { window } = props;
@@ -35,10 +52,12 @@ function Index(props) {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
+          <ListItem key={item.label} disablePadding>
+            <Link to={item.to}>
+              <ListItemButton sx={{ textAlign: "center" }}>
+                <ListItemText primary={item.label} />
+              </ListItemButton>
+            </Link>
           </ListItem>
         ))}
       </List>
