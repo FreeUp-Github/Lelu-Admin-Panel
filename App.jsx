@@ -22,6 +22,7 @@ import { Index } from "./pages/Index";
 import { RedirectAuthenticated } from "./core/auth/RedirectAuthenticated";
 import { RoomDetail } from "./pages/AdminPanel/RoomDetail";
 import { ResetPassword } from "./pages/ResetPassword";
+import { UserIndex } from "./pages/User/Index";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,6 +48,8 @@ const App = () => {
               <GlobalErrorHandler />
               {/* <Link to="/">home</Link> */}
               <Routes>
+                <Route path="/user/:roomId" element={<UserIndex />} />
+
                 <Route
                   path="/sign-up"
                   element={

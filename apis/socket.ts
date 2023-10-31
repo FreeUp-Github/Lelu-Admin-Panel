@@ -1,3 +1,4 @@
+import { KEY_NAMES } from "./../constants/user";
 import { getToken } from "../core/auth";
 
 function initWebSocket(
@@ -20,15 +21,23 @@ function initWebSocket(
   // Listen for messages
 }
 
-function chatAuthenticate(roomId: string) {
+function chatAuthenticate(roomId: string, bearer: boolean) {
   return initWebSocket(roomId).then((ws) => {
-    ws.send(
-      JSON.stringify({
-        type: "authorization",
-        token: `Bearer ${getToken()}`,
-      })
-    );
-
+    if (bearer) {
+      ws.send(
+        JSON.stringify({
+          type: "authorization",
+          token: `Bearer ${getToken()}`,
+        })
+      );
+    } else {
+      ws.send(
+        JSON.stringify({
+          type: "authorization",
+          token: `Token ${localStorage.getItem(KEY_NAMES.authToken)}`,
+        })
+      );
+    }
     return ws;
   });
 }
@@ -36,9 +45,10 @@ function chatAuthenticate(roomId: string) {
 export function chatStart(
   roomId: string,
   uuid: string,
-  onMessage: (messageData: any) => void
+  onMessage: (messageData: any) => void,
+  bearer = true
 ) {
-  return chatAuthenticate(roomId).then((ws) => {
+  return chatAuthenticate(roomId, bearer).then((ws) => {
     ws.send(
       JSON.stringify({
         type: "chat_join",

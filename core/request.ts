@@ -1,3 +1,4 @@
+import { KEY_NAMES } from "./../constants/user";
 import axios from "axios";
 import { signal } from "@preact/signals-react";
 import { getToken } from "./auth";
@@ -5,13 +6,21 @@ import { getToken } from "./auth";
 const request = axios.create({
   baseURL: "https://94.101.190.125:8443/",
   timeout: 60 * 1000,
-  // headers: {'X-Custom-Header': 'foobar'}
 });
 
 const authRequest = axios.create({
   baseURL: "https://94.101.190.125:8443/",
   timeout: 60 * 1000,
-  // headers: {'X-Custom-Header': 'foobar', },
+});
+
+const userRequest = axios.create({
+  baseURL: "https://94.101.190.125:8443/",
+  timeout: 60 * 1000,
+});
+
+const authUserRequest = axios.create({
+  baseURL: "https://94.101.190.125:8443/",
+  timeout: 60 * 1000,
 });
 
 authRequest.interceptors.request.use((value) => {
@@ -19,10 +28,62 @@ authRequest.interceptors.request.use((value) => {
   return value;
 });
 
+userRequest.interceptors.request.use((value) => {
+  value.headers.Authorization = `Token ${localStorage.getItem(
+    KEY_NAMES.authToken
+  )}`;
+  return value;
+});
+
+authUserRequest.interceptors.request.use((value) => {
+  value.headers.Authorization = `Token ${localStorage.getItem(
+    KEY_NAMES.authToken
+  )}`;
+  return value;
+});
+
 const snackBarError = signal({ message: null });
 
+const get = function (...args: Parameters<typeof request.get>) {
+  return request.get
+    .apply(this, args)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      snackBarError.value = {
+        message: err?.message,
+      };
+    });
+};
 const authGet = function (...args: Parameters<typeof request.get>) {
   return authRequest.get
+    .apply(this, args)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      snackBarError.value = {
+        message: err?.message,
+      };
+    });
+};
+
+const userGet = function (...args: Parameters<typeof request.get>) {
+  return userRequest.get
+    .apply(this, args)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      snackBarError.value = {
+        message: err?.message,
+      };
+    });
+};
+
+const authUserGet = function (...args: Parameters<typeof request.get>) {
+  return userRequest.get
     .apply(this, args)
     .then((res) => {
       return res.data;
@@ -73,4 +134,14 @@ const authPatch = function (...args: Parameters<typeof request.patch>) {
     });
 };
 
-export { post, snackBarError, authRequest, authGet, authPost, authPatch };
+export {
+  post,
+  snackBarError,
+  authRequest,
+  authGet,
+  authPost,
+  authPatch,
+  get,
+  userGet,
+  authUserGet,
+};

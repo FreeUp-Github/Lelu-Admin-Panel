@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-export function Message({ msg }) {
+export function Message({ msg, reverse }) {
   const [isLeluUser, setIsLeluUser] = useState(false);
   useEffect(() => {
-    setIsLeluUser(msg.sender.type === "leluchat_user");
+    setIsLeluUser(
+      reverse
+        ? msg.sender.type !== "leluchat_user"
+        : msg.sender.type === "leluchat_user"
+    );
   }, [msg]);
   return (
     <div className="chat-message">
