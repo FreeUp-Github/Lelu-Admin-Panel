@@ -118,7 +118,7 @@ export function UserIndex() {
   }
 
   return (
-    <div className="w-full min-h-[600px] flex flex-col">
+    <div className="w-full min-h-[600px] flex flex-col bg-white rounded-sm">
       {/* <Typography component="h1" variant="h5" fontWeight={700}>
         Start Date: {new Date(Date.parse(data.start_time)).toLocaleString()}
       </Typography> */}

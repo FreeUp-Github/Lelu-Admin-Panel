@@ -34,7 +34,7 @@ const queryClient = new QueryClient({
 });
 const App = () => {
   return (
-    <Container>
+    <Container maxWidth>
       <AuthProvider>
         <ErrorBoundary>
           <QueryClientProvider client={queryClient}>
