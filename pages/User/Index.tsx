@@ -1,5 +1,6 @@
 import {
   Button,
+  IconButton,
   LinearProgress,
   OutlinedInput,
   TextField,
@@ -16,6 +17,7 @@ import { Send } from "@mui/icons-material";
 import { useEffect } from "react";
 import { getPreviousChats, startNewChat } from "../../apis/user";
 import { KEY_NAMES } from "../../constants/user";
+import MessageIcon from "@mui/icons-material/Message";
 
 export function UserIndex() {
   const { roomId } = useParams();
@@ -93,12 +95,29 @@ export function UserIndex() {
     return onUnmount;
   }, []);
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  if (!isOpen) {
+    return (
+      <div className="absolute bottom-0 right-0">
+        <IconButton
+          aria-label="delete"
+          size="large"
+          color="primary"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <MessageIcon fontSize="inherit" />
+        </IconButton>
+      </div>
+    );
+  }
+
   if (previousChatsLoading) {
     return <LinearProgress />;
   }
 
   return (
-    <div>
+    <div className="w-full h-full">
       {/* <Typography component="h1" variant="h5" fontWeight={700}>
         Start Date: {new Date(Date.parse(data.start_time)).toLocaleString()}
       </Typography> */}

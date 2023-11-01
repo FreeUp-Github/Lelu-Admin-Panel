@@ -118,6 +118,19 @@ function Index(props) {
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
         <Typography>LeLu!</Typography>
+
+        <iframe
+          id="inlineFrameExample"
+          title="Inline Frame Example"
+          src="/user/852eae72-981a-45b9-9679-44e7cee2c437"
+          style={{
+            width: "400px",
+            height: "600px",
+            position: "fixed",
+            bottom: "12px",
+            right: "12px",
+          }}
+        ></iframe>
       </Box>
     </Box>
   );
