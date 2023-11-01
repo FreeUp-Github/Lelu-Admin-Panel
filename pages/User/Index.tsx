@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import { getPreviousChats, startNewChat } from "../../apis/user";
 import { KEY_NAMES } from "../../constants/user";
 import MessageIcon from "@mui/icons-material/Message";
+import CloseIcon from "@mui/icons-material/Close";
 
 export function UserIndex() {
   const { roomId } = useParams();
@@ -121,9 +122,19 @@ export function UserIndex() {
       {/* <Typography component="h1" variant="h5" fontWeight={700}>
         Start Date: {new Date(Date.parse(data.start_time)).toLocaleString()}
       </Typography> */}
-      <Typography component="h1" variant="h5" fontWeight={700}>
-        Messages:
-      </Typography>
+      <div className="sticky top-0 py-2 flex justify-between bg-white">
+        <Typography component="h1" variant="h5" fontWeight={700}>
+          Messages:
+        </Typography>
+        <IconButton
+          aria-label="delete"
+          size="small"
+          color="primary"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <CloseIcon fontSize="inherit" />
+        </IconButton>
+      </div>
       <div className="flex-1 p:2 sm:p-6 justify-between flex flex-col">
         <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
           <div className="relative flex items-center space-x-4">
