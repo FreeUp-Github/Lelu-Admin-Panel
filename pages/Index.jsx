@@ -15,6 +15,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link, Navigate } from "react-router-dom";
+import { useScrollTrigger } from "@mui/material";
 
 const drawerWidth = 240;
 const navItems = [
@@ -67,10 +68,35 @@ function Index(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  return (
-    <Box maxWidth="100%">
-      <CssBaseline />
-      <AppBar component="nav">
+  function ElevationScroll(props) {
+    const { children } = props;
+    // Note that you normally won't need to set the window ref as useScrollTrigger
+    // will default to window.
+    // This is only being set here because the demo is in an iframe.
+    const trigger = useScrollTrigger({
+      disableHysteresis: true,
+      threshold: 50,
+      target: window,
+    });
+
+    return React.cloneElement(children, {
+      elevation: trigger ? 4 : 0,
+      color: trigger ? "primary" : "transparent",
+    });
+  }
+
+  ElevationScroll.propTypes = {
+    children: PropTypes.element.isRequired,
+    /**
+     * Injected by the documentation to work in an iframe.
+     * You won't need it on your project.
+     */
+    window: PropTypes.func,
+  };
+
+  function AppBarFactory(props) {
+    return (
+      <AppBar component="nav" {...props} scroll>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -86,15 +112,29 @@ function Index(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            LeLu
+            LeLu Chat
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <Link to="/sign-in">
-              <Button sx={{ color: "#fff" }}>Sign In</Button>
+              <Button
+                variant="contain"
+                color={props.color === "transparent" ? "primary" : "info"}
+              >
+                Sign In
+              </Button>
             </Link>
           </Box>
         </Toolbar>
       </AppBar>
+    );
+  }
+
+  return (
+    <Box>
+      <CssBaseline />
+      <ElevationScroll {...props}>
+        <AppBarFactory></AppBarFactory>
+      </ElevationScroll>
       <nav>
         <Drawer
           container={container}
@@ -115,7 +155,7 @@ function Index(props) {
           {drawer}
         </Drawer>
       </nav>
-      <Box component="main" sx={{ p: 3 }}>
+      <Box component="main" sx={{}}>
         <Toolbar />
         {/* <Typography>LeLu!</Typography> */}
 
@@ -143,12 +183,11 @@ function Index(props) {
                 <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                   <div className="pr-12">
                     <h1 className="text-white font-semibold text-5xl">
-                      Your story starts with us.
+                      Easily Chat with your clients
                     </h1>
                     <p className="mt-4 text-lg text-gray-300">
-                      This is a simple example of a Landing Page you can build
-                      using Tailwind Starter Kit. It features multiple CSS
-                      components based on the Tailwindcss design system.
+                      chatting with client is a must have for every website,
+                      easily integrate your website with LeLu Chat
                     </p>
                   </div>
                 </div>
@@ -184,10 +223,10 @@ function Index(props) {
                       <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
                         <i className="fas fa-award"></i>
                       </div>
-                      <h6 className="text-xl font-semibold">Awarded Agency</h6>
+                      <h6 className="text-xl font-semibold">Online Chatting</h6>
                       <p className="mt-2 mb-4 text-gray-600">
-                        Divide details about your product or agency work into
-                        parts. A paragraph describing a feature will be enough.
+                        Secure way to chat with your client and easily support
+                        your clients
                       </p>
                     </div>
                   </div>
@@ -199,11 +238,11 @@ function Index(props) {
                       <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-blue-400">
                         <i className="fas fa-retweet"></i>
                       </div>
-                      <h6 className="text-xl font-semibold">Free Revisions</h6>
+                      <h6 className="text-xl font-semibold">
+                        Turn visitors to clients
+                      </h6>
                       <p className="mt-2 mb-4 text-gray-600">
-                        Keep you user engaged by providing meaningful
-                        information. Remember that by this time, the user is
-                        curious.
+                        Easily track your online visitors and chat with them
                       </p>
                     </div>
                   </div>
@@ -216,18 +255,18 @@ function Index(props) {
                         <i className="fas fa-fingerprint"></i>
                       </div>
                       <h6 className="text-xl font-semibold">
-                        Verified Company
+                        Automatic Messaging
                       </h6>
                       <p className="mt-2 mb-4 text-gray-600">
-                        Write a few lines about each one. A paragraph describing
-                        a feature will be enough. Keep you user engaged!
+                        Automatically send message to your client based on
+                        defined scenarios
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center mt-32">
+              {/* <div className="flex flex-wrap items-center mt-32">
                 <div className="w-full md:w-5/12 px-4 mr-auto ml-auto">
                   <div className="text-gray-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-gray-100">
                     <i className="fas fa-user-friends text-xl"></i>
@@ -288,11 +327,11 @@ function Index(props) {
                     </blockquote>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </section>
 
-          <section className="relative py-20">
+          {/* <section className="relative py-20">
             <div
               className="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
               style={{ height: "80px" }}
@@ -689,7 +728,7 @@ function Index(props) {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
         </main>
 
         <iframe
