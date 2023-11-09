@@ -16,6 +16,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link, Navigate } from "react-router-dom";
 import { useScrollTrigger } from "@mui/material";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const drawerWidth = 240;
 const navItems = [
@@ -38,7 +40,7 @@ const navItems = [
 ];
 
 function Index(props) {
-  const { window } = props;
+  // const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -66,7 +68,36 @@ function Index(props) {
   );
 
   const container =
-    window !== undefined ? () => window().document.body : undefined;
+    window !== undefined ? () => window.document.body : undefined;
+
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  useEffect(() => {
+    var eventMethod = window.addEventListener
+      ? "addEventListener"
+      : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+    // Listen to message from child window
+    eventer(
+      messageEvent,
+      function (e) {
+        var key = e.message ? "message" : "data";
+        var data = e[key];
+        switch (data) {
+          case "open":
+            setIsChatOpen(true);
+            break;
+          case "close":
+            setIsChatOpen(false);
+            break;
+        }
+        //run function//
+      },
+      false
+    );
+  }, []);
 
   function ElevationScroll(props) {
     const { children } = props;
@@ -732,12 +763,14 @@ function Index(props) {
         </main>
 
         <iframe
-          id="inlineFrameExample"
-          title="Inline Frame Example"
+          id="lelu-chat-iframe"
+          title="lelu-chat-iframe"
           src="/user/852eae72-981a-45b9-9679-44e7cee2c437"
           style={{
-            width: "400px",
-            height: "600px",
+            ...(isChatOpen
+              ? { width: "400px", height: "600px" }
+              : { width: "52px", height: "52px" }),
+
             position: "fixed",
             bottom: "12px",
             right: "12px",
